@@ -4,13 +4,12 @@ import numpy as np
 import tensorflow as tf
 import joblib
 
-# ── Load model and scaler ──────────────────────────────────
+
 model = tf.keras.models.load_model('models/lstm_model.h5')
 scaler = joblib.load('models/scaler.pkl')
 
 app = FastAPI()
 
-# ── Input schema ───────────────────────────────────────────
 class PredictRequest(BaseModel):
     hour: int
     day_of_week: int
@@ -18,7 +17,7 @@ class PredictRequest(BaseModel):
     lag_1: float
     rolling_mean_3: float
 
-# ── Health check ───────────────────────────────────────────
+
 @app.get("/")
 def root():
     return {"status": "Solar Forecast API is running"}
