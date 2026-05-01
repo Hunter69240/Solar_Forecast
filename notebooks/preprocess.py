@@ -7,19 +7,23 @@ import os
 
 # ── Fetch data from Open-Meteo ─────────────────────────────
 # Bengaluru coordinates: 12.9716° N, 77.5946° E
-url = "https://archive.open-meteo.com/v1/archive"
+# Using forecast API with past_days=92 — returns ~3 months of recent
+# ERA5 reanalysis data. More reliable DNS than archive.open-meteo.com
+# and recent data is better for forecasting current conditions.
+url = "https://api.open-meteo.com/v1/forecast"
 
 params = {
     "latitude": 12.9716,
     "longitude": 77.5946,
-    "start_date": "2023-01-01",
-    "end_date": "2024-12-31",
+    "past_days": 92,
+    "forecast_days": 0,
     "hourly": "shortwave_radiation,direct_radiation,temperature_2m,cloudcover,windspeed_10m",
     "timezone": "Asia/Kolkata"
 }
 
 print("Fetching data from Open-Meteo...")
-response = requests.get(url, params=params)
+response = requests.get(url, params=params, timeout=30)
+response.raise_for_status()
 data = response.json()
 
 # ── Build dataframe ────────────────────────────────────────

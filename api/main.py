@@ -16,6 +16,11 @@ class PredictRequest(BaseModel):
     month: int
     lag_1: float
     rolling_mean_3: float
+    shortwave_radiation: float
+    direct_radiation: float
+    temperature: float
+    cloudcover: float
+    windspeed: float
 
 
 @app.get("/")
@@ -25,19 +30,23 @@ def root():
 # ── Predict endpoint ───────────────────────────────────────
 @app.post("/predict")
 def predict(data: PredictRequest):
-    # Build input array
-    X = np.array([[data.hour, data.day_of_week, data.month,
-                   data.lag_1, data.rolling_mean_3]])
-    
+    # Build input array — must match training feature order
+    X = np.array([[
+        data.hour, data.day_of_week, data.month,
+        data.lag_1, data.rolling_mean_3,
+        data.shortwave_radiation, data.direct_radiation,
+        data.temperature, data.cloudcover, data.windspeed
+    ]])
+
     # Reshape for LSTM (samples, timesteps, features)
-    X = X.reshape((1, 1, 5))
-    
+    X = X.reshape((1, 1, 10))
+
     # Predict
     prediction_scaled = model.predict(X, verbose=0)[0][0]
-    
+
     # Inverse transform to get real value
     prediction = scaler.inverse_transform([[prediction_scaled]])[0][0]
-    
+
     return {
         "predicted_ac_power": round(float(prediction), 4)
     }

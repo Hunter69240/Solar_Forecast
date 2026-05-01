@@ -8,9 +8,16 @@ from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 import os
 
 
-df = pd.read_csv('data/features.csv', index_col='DATE_TIME', parse_dates=True)
+df = pd.read_csv('data/features.csv', index_col='datetime', parse_dates=True)
 
-X = df[['hour', 'day_of_week', 'month', 'lag_1', 'rolling_mean_3']].values
+FEATURES = [
+    'hour', 'day_of_week', 'month',
+    'lag_1', 'rolling_mean_3',
+    'shortwave_radiation', 'direct_radiation',
+    'temperature', 'cloudcover', 'windspeed'
+]
+
+X = df[FEATURES].values
 y = df['AC_POWER'].values
 
 
@@ -23,7 +30,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 
 
 model = Sequential([
-    LSTM(64, input_shape=(1, X.shape[2]), return_sequences=False),
+    LSTM(64, input_shape=(1, len(FEATURES)), return_sequences=False),
     Dropout(0.2),
     Dense(1)
 ])
