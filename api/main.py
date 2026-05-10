@@ -4,12 +4,10 @@ import numpy as np
 import tensorflow as tf
 import joblib
 
-
 model = tf.keras.models.load_model('models/lstm_model.h5')
 scaler = joblib.load('models/scaler.pkl')
 
 app = FastAPI()
-
 class PredictRequest(BaseModel):
     hour: int
     day_of_week: int

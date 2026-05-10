@@ -1,0 +1,22 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Start Suprmentr",
+            "type": "shell",
+            "command": ".\\venv\\Scripts\\Activate.ps1; Start-Process powershell -WorkingDirectory '${workspaceFolder}' -ArgumentList '-NoExit','-ExecutionPolicy','Bypass','-Command','.\\venv\\Scripts\\Activate.ps1; uvicorn api.main:app --reload'; streamlit run dashboard/app.py",
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "shell": {
+                    "executable": "powershell.exe",
+                    "args": ["-ExecutionPolicy", "Bypass", "-Command"]
+                }
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "problemMatcher": []
+        }
+    ]
+}

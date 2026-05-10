@@ -1,0 +1,2 @@
+streamlit run dashboard/app.py
+uvicorn api.main:app --reload

@@ -10,6 +10,7 @@ import os
 
 df = pd.read_csv('data/features.csv', index_col='datetime', parse_dates=True)
 
+
 FEATURES = [
     'hour', 'day_of_week', 'month',
     'lag_1', 'rolling_mean_3',
