@@ -2,7 +2,7 @@ name: Hourly Solar Forecast
 
 on:
   schedule:
-    - cron: "15 * * * *" # runs every hour at :15 UTC (avoids peak congestion at :00)
+    - cron: "40 * * * *" # runs every hour at :40 UTC = :10 IST
   workflow_dispatch: # manual trigger button in GitHub UI (for testing)
 
 jobs:
