@@ -1,6 +1,6 @@
 venv/
 .env
-data/
+data/*
 !data/forecasts.json
 
 __pycache__/
