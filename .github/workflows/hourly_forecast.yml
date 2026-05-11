@@ -1,0 +1,55 @@
+name: Hourly Solar Forecast
+
+on:
+  schedule:
+    - cron: '0 * * * *'   # runs every hour at :00 UTC
+  workflow_dispatch:        # manual trigger button in GitHub UI (for testing)
+
+jobs:
+  predict:
+    runs-on: ubuntu-latest
+
+    env:
+      TZ: Asia/Kolkata      # so datetime.now() in the script returns IST, matching Open-Meteo timestamps
+
+    permissions:
+      contents: write       # needed so the job can push forecasts.json back to the repo
+
+    steps:
+
+      # ── 1. Get the code ───────────────────────────────────
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ── 2. Set up Python with pip caching ─────────────────
+      # cache: 'pip' means — if requirements.txt hasn't changed since
+      # last run, skip the download and reuse the cached packages.
+      # Saves ~2-3 min per run (TensorFlow is large).
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+
+      # ── 3. Install dependencies ───────────────────────────
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      # ── 4. Run the prediction script ──────────────────────
+      # This loads the model, fetches weather, runs 168 predictions,
+      # and writes data/forecasts.json
+      - name: Run prediction script
+        run: python scripts/predict_and_save.py
+
+      # ── 5. Commit and push the updated forecasts.json ─────
+      # [skip ci] in the commit message tells GitHub Actions not to
+      # re-trigger this workflow for the push (prevents an infinite loop).
+      # The `git diff --staged --quiet ||` part means: only commit if
+      # forecasts.json actually changed — avoids empty commits.
+      - name: Commit and push forecasts.json
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/forecasts.json
+          git diff --staged --quiet || git commit -m "chore: hourly forecast update [skip ci]"
+          git push

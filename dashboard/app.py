@@ -1,42 +1,73 @@
 import sys
 import os
+import json
 sys.path.append(os.path.dirname(__file__))
 
 import streamlit as st
-import requests
 import pandas as pd
-import joblib
 import numpy as np
 from datetime import datetime, timedelta
-import time
 import plotly.graph_objects as go
-from dotenv import load_dotenv
 from utils import fetch_weather_forecast, fetch_sunrise_sunset
 
-load_dotenv()
-
-API_URL = os.getenv("API_URL", "http://127.0.0.1:8000")
+# ── Path to pre-computed forecast file (written by GitHub Actions hourly) ──
+BASE_DIR      = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+FORECAST_PATH = os.path.join(BASE_DIR, "data", "forecasts.json")
 
 st.set_page_config(page_title="Solar Forecast", page_icon="☀️")
 st.title("☀️ Solar Power Generation Forecast")
 st.caption("📍 Location: Bengaluru, India — Plant 1, Inverter 1BY6WEcLGh8j5v7")
 
 # ── Session state defaults ─────────────────────────────────
-if "btn_state" not in st.session_state:
-    st.session_state.btn_state = "idle"        # idle | loading | done
 if "results" not in st.session_state:
     st.session_state.results = None
 if "last_num_days" not in st.session_state:
     st.session_state.last_num_days = 3
 
-# ── Fetch live weather data (shared cache via utils) ──────
+# ── Fetch live weather data (used for chart overlays & weather table) ──
 weather_forecast = fetch_weather_forecast()
 sunrise_sunset   = fetch_sunrise_sunset()
 
 if weather_forecast is None:
-    st.warning("⚠️ Could not fetch live weather forecast. Predictions will fall back to zeros for weather inputs.")
+    st.warning("⚠️ Could not fetch live weather data. Sunrise/sunset markers and weather table will be unavailable.")
 
-scaler = joblib.load('models/scaler.pkl')
+
+# ── Load pre-computed forecast from forecasts.json ────────
+def load_forecast(forecast_dates):
+    """
+    Reads data/forecasts.json written by scripts/predict_and_save.py.
+    Filters to the requested forecast_dates and returns a results df
+    plus the generated_at timestamp.
+    """
+    if not os.path.exists(FORECAST_PATH):
+        return None, None
+
+    with open(FORECAST_PATH, "r") as f:
+        data = json.load(f)
+
+    generated_at = datetime.fromisoformat(data["generated_at"])
+
+    df_all = pd.DataFrame(data["predictions"])
+    df_all["datetime_obj"] = pd.to_datetime(df_all["datetime"])
+
+    # Keep only the rows that fall on the requested forecast dates
+    df_filtered = df_all[
+        df_all["datetime_obj"].dt.date.isin(forecast_dates)
+    ].copy().reset_index(drop=True)
+
+    if df_filtered.empty:
+        return None, generated_at
+
+    df_results = pd.DataFrame({
+        "Datetime":               df_filtered["datetime_obj"].tolist(),
+        "Date":                   [h.strftime("%d %b") for h in df_filtered["datetime_obj"]],
+        "Hour":                   [h.hour               for h in df_filtered["datetime_obj"]],
+        "Time":                   [h.strftime("%H:%M")  for h in df_filtered["datetime_obj"]],
+        "Predicted AC Power (W)": df_filtered["ac_power"].tolist()
+    })
+
+    return df_results, generated_at
+
 
 # ── Slider ─────────────────────────────────────────────────
 today = datetime.now().date()
@@ -52,96 +83,56 @@ num_days = st.slider(
 # Reset results if slider value changed
 if num_days != st.session_state.last_num_days:
     st.session_state.last_num_days = num_days
-    st.session_state.btn_state = "idle"
     st.session_state.results = None
 
 forecast_dates = [today + timedelta(days=d) for d in range(num_days)]
 
-# ── Button rendering ───────────────────────────────────────
-if st.session_state.btn_state == "idle":
-    clicked = st.button(" Make Prediction", type="primary", use_container_width=True)
-    if clicked:
-        st.session_state.btn_state = "loading"
-        st.rerun()
+# ── Button ─────────────────────────────────────────────────
+if st.button("☀️ Make Prediction", type="primary", use_container_width=True):
+    df_results, generated_at = load_forecast(forecast_dates)
 
-elif st.session_state.btn_state == "loading":
-    st.button(" Predicting...", disabled=True, type="primary", use_container_width=True)
-
-    # ── Run predictions ────────────────────────────────────
-    hours = [
-        datetime(d.year, d.month, d.day, h)
-        for d in forecast_dates
-        for h in range(24)
-    ]
-
-    predictions_real = []
-    predictions_scaled = []
-
-    for i, hour in enumerate(hours):
-        lag_1 = predictions_scaled[i-1] if i > 0 else 0.0
-        rolling_mean_3 = float(np.mean(predictions_scaled[max(0, i-3):i])) if i > 0 else 0.0
-
-        if weather_forecast is not None and hour in weather_forecast.index:
-            w = weather_forecast.loc[hour]
-            shortwave = float(w["shortwave_radiation"] or 0)
-            direct = float(w["direct_radiation"] or 0)
-            temperature = float(w["temperature"] or 25)
-            cloudcover = float(w["cloudcover"] or 0)
-            windspeed = float(w["windspeed"] or 0)
-        else:
-            shortwave = direct = cloudcover = windspeed = 0.0
-            temperature = 25.0
-
-        payload = {
-            "hour": hour.hour,
-            "day_of_week": hour.weekday(),
-            "month": hour.month,
-            "lag_1": lag_1,
-            "rolling_mean_3": rolling_mean_3,
-            "shortwave_radiation": shortwave,
-            "direct_radiation": direct,
-            "temperature": temperature,
-            "cloudcover": cloudcover,
-            "windspeed": windspeed
+    if df_results is None and generated_at is None:
+        # forecasts.json does not exist yet (cold start before first Actions run)
+        st.error(
+            "❌ No forecast data found. "
+            "Run `python scripts/predict_and_save.py` locally or wait for the first GitHub Actions run."
+        )
+    elif df_results is None:
+        # File exists but has no rows for the requested dates (script ran on a different day)
+        st.error(
+            "❌ Forecast file exists but contains no data for the selected dates. "
+            "This can happen if the forecast file is more than 24 hours old. "
+            "Trigger a manual GitHub Actions run to refresh it."
+        )
+    else:
+        st.session_state.results = {
+            "df":             df_results,
+            "forecast_dates": forecast_dates,
+            "num_days":       num_days,
+            "generated_at":   generated_at
         }
-
-        try:
-            response = requests.post(f"{API_URL}/predict", json=payload)
-            result = response.json()
-            real_val = result["predicted_ac_power"]
-            scaled_val = float(scaler.transform([[real_val]])[0][0])
-            predictions_real.append(round(max(0.0, real_val), 2))
-            predictions_scaled.append(max(0.0, scaled_val))
-        except Exception:
-            predictions_real.append(0.0)
-            predictions_scaled.append(0.0)
-
-    df_results = pd.DataFrame({
-        "Datetime": hours,
-        "Date": [h.strftime("%d %b") for h in hours],
-        "Hour": [h.hour for h in hours],
-        "Time": [h.strftime("%H:%M") for h in hours],
-        "Predicted AC Power (W)": predictions_real
-    })
-
-    st.session_state.results = {
-        "df": df_results,
-        "forecast_dates": forecast_dates,
-        "num_days": num_days
-    }
-    st.session_state.btn_state = "done"
-    st.rerun()
-
-elif st.session_state.btn_state == "done":
-    st.button("✅ Predicted!", disabled=True, type="primary", use_container_width=True)
 
 # ── Display results if available ──────────────────────────
 if st.session_state.results is not None:
-    r = st.session_state.results
-    df_results = r["df"]
+    r              = st.session_state.results
+    df_results     = r["df"]
     forecast_dates = r["forecast_dates"]
     result_num_days = r["num_days"]
+    generated_at   = r["generated_at"]
 
+    # ── Freshness indicator ────────────────────────────────
+    age_minutes = (datetime.now() - generated_at).total_seconds() / 60
+    st.caption(
+        f"🕐 Forecast last updated: **{generated_at.strftime('%d %b %Y, %H:%M')}** "
+        f"({int(age_minutes)} min ago)"
+    )
+    if age_minutes > 90:
+        st.warning(
+            "⚠️ Forecast data is more than 90 minutes old. "
+            "GitHub Actions may have missed a scheduled run."
+        )
+
+    # ── Daily total metric cards ───────────────────────────
     daily_totals = (
         df_results.groupby("Date")["Predicted AC Power (W)"]
         .sum()
@@ -171,7 +162,7 @@ if st.session_state.results is not None:
     with opts_col:
         st.markdown("**Chart options**")
         show_peak = st.checkbox("Peak hour", value=True)
-        show_sun = st.checkbox("Sunrise / Sunset", value=True)
+        show_sun  = st.checkbox("Sunrise / Sunset", value=True)
         st.divider()
         if st.button("📊 View", use_container_width=True, help="View raw fetched weather data"):
             st.switch_page("pages/view.py")
@@ -189,7 +180,7 @@ if st.session_state.results is not None:
             ))
             if show_peak:
                 peak_hour = int(chart_df["Predicted AC Power (W)"].idxmax())
-                peak_val = chart_df["Predicted AC Power (W)"].max()
+                peak_val  = chart_df["Predicted AC Power (W)"].max()
                 fig.add_vline(
                     x=peak_hour,
                     line_dash="dot", line_color="#ffd54f",
@@ -210,7 +201,7 @@ if st.session_state.results is not None:
                 ))
                 if show_peak:
                     peak_hour = int(chart_df[col].idxmax())
-                    peak_val = chart_df[col].max()
+                    peak_val  = chart_df[col].max()
                     fig.add_annotation(
                         x=peak_hour, y=peak_val,
                         text=f"⬆ {peak_val:.0f} W",
@@ -220,14 +211,16 @@ if st.session_state.results is not None:
                         bgcolor="rgba(0,0,0,0.5)"
                     )
 
-        # Sunrise / sunset vertical lines (based on first forecast day)
+        # ── Sunrise / sunset lines ─────────────────────────
         if show_sun and sunrise_sunset is not None:
             ref_date = forecast_dates[0]
             if ref_date in sunrise_sunset.index:
-                sr_hour = sunrise_sunset.loc[ref_date, "sunrise"].hour + sunrise_sunset.loc[ref_date, "sunrise"].minute / 60
-                ss_hour = sunrise_sunset.loc[ref_date, "sunset"].hour + sunrise_sunset.loc[ref_date, "sunset"].minute / 60
-                sr_label = sunrise_sunset.loc[ref_date, "sunrise"].strftime("%H:%M")
-                ss_label = sunrise_sunset.loc[ref_date, "sunset"].strftime("%H:%M")
+                sr = sunrise_sunset.loc[ref_date, "sunrise"]
+                ss = sunrise_sunset.loc[ref_date, "sunset"]
+                sr_hour  = sr.hour + sr.minute / 60
+                ss_hour  = ss.hour + ss.minute / 60
+                sr_label = sr.strftime("%H:%M")
+                ss_label = ss.strftime("%H:%M")
                 fig.add_vline(
                     x=sr_hour,
                     line_dash="dash", line_color="#ffcc80",
@@ -258,10 +251,12 @@ if st.session_state.results is not None:
         )
         st.plotly_chart(fig, use_container_width=True)
 
+    # ── Hourly table ───────────────────────────────────────
     st.subheader("Hourly Breakdown")
     display_df = df_results[["Date", "Time", "Predicted AC Power (W)"]].reset_index(drop=True)
     st.dataframe(display_df, use_container_width=True)
 
+    # ── Download button ────────────────────────────────────
     date_range_str = (
         forecast_dates[0].strftime("%Y-%m-%d")
         if result_num_days == 1
@@ -274,24 +269,22 @@ if st.session_state.results is not None:
         mime="text/csv"
     )
 
+    # ── Live weather table ─────────────────────────────────
     if weather_forecast is not None:
         day_weather = weather_forecast[weather_forecast.index.date == forecast_dates[0]]
         if not day_weather.empty:
             st.subheader("🌤️ Live Weather Inputs Used")
             weather_display = day_weather.rename(columns={
                 "shortwave_radiation": "Shortwave (W/m²)",
-                "direct_radiation": "Direct (W/m²)",
-                "temperature": "Temp (°C)",
-                "cloudcover": "Cloud Cover (%)",
-                "windspeed": "Wind (km/h)"
+                "direct_radiation":    "Direct (W/m²)",
+                "temperature":         "Temp (°C)",
+                "cloudcover":          "Cloud Cover (%)",
+                "windspeed":           "Wind (km/h)"
             })
-            st.dataframe(weather_display.reset_index().rename(columns={"datetime": "Hour"}), use_container_width=True)
-
-# ── Reset "done" button back to idle after 2 seconds ──────
-if st.session_state.btn_state == "done":
-    time.sleep(2)
-    st.session_state.btn_state = "idle"
-    st.rerun()
+            st.dataframe(
+                weather_display.reset_index().rename(columns={"datetime": "Hour"}),
+                use_container_width=True
+            )
 
 
 # ── About the Model ────────────────────────────────────────
@@ -320,9 +313,9 @@ The model uses **10 input features** per hour:
 | Lag | Previous hour's output, 3-hour rolling average |
 | Weather | Shortwave radiation, direct radiation, temperature, cloud cover, wind speed |
 
-For each forecast hour, the dashboard fetches the **live Open-Meteo weather forecast** and passes
-the actual predicted conditions into the model — so the output curve you see is driven by real
-forecast irradiance and cloud cover, not just time-of-day patterns.
+Predictions are pre-computed every hour by a GitHub Actions workflow and stored in
+`data/forecasts.json`. The dashboard reads from this file instantly — no model inference
+happens at request time.
 
 **Model Architecture**
 - LSTM layer (64 units) → Dropout (0.2) → Dense output
