@@ -2,21 +2,20 @@ name: Hourly Solar Forecast
 
 on:
   schedule:
-    - cron: '0 * * * *'   # runs every hour at :00 UTC
-  workflow_dispatch:        # manual trigger button in GitHub UI (for testing)
+    - cron: "15 * * * *" # runs every hour at :15 UTC (avoids peak congestion at :00)
+  workflow_dispatch: # manual trigger button in GitHub UI (for testing)
 
 jobs:
   predict:
     runs-on: ubuntu-latest
 
     env:
-      TZ: Asia/Kolkata      # so datetime.now() in the script returns IST, matching Open-Meteo timestamps
+      TZ: Asia/Kolkata # so datetime.now() in the script returns IST, matching Open-Meteo timestamps
 
     permissions:
-      contents: write       # needed so the job can push forecasts.json back to the repo
+      contents: write # needed so the job can push forecasts.json back to the repo
 
     steps:
-
       # ── 1. Get the code ───────────────────────────────────
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -28,8 +27,8 @@ jobs:
       - name: Set up Python 3.10
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
-          cache: 'pip'
+          python-version: "3.10"
+          cache: "pip"
 
       # ── 3. Install dependencies ───────────────────────────
       - name: Install dependencies
