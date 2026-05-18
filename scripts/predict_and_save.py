@@ -126,7 +126,7 @@ def save_forecast(hours, predictions):
 
 # ── Main ───────────────────────────────────────────────────
 def main():
-    print("=== Suprmentr Hourly Forecast Job ===")
+    print("=== Solar Power Hourly Forecast Job ===")
 
     print("[1/3] Loading model and scaler...")
     model  = tf.keras.models.load_model(MODEL_PATH)
