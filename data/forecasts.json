@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-06-28T06:59:43",
+  "generated_at": "2026-06-28T07:57:22",
   "predictions": [
     {
       "datetime": "2026-06-28T00:00:00",
-      "ac_power": 45.05
+      "ac_power": 45.53
     },
     {
       "datetime": "2026-06-28T01:00:00",
-      "ac_power": 30.6
+      "ac_power": 34.4
     },
     {
       "datetime": "2026-06-28T02:00:00",
@@ -15,87 +15,87 @@
     },
     {
       "datetime": "2026-06-28T03:00:00",
-      "ac_power": 25.74
+      "ac_power": 25.94
     },
     {
       "datetime": "2026-06-28T04:00:00",
-      "ac_power": 34.39
+      "ac_power": 34.41
     },
     {
       "datetime": "2026-06-28T05:00:00",
-      "ac_power": 25.73
+      "ac_power": 25.7
     },
     {
       "datetime": "2026-06-28T06:00:00",
-      "ac_power": 132.26
+      "ac_power": 149.9
     },
     {
       "datetime": "2026-06-28T07:00:00",
-      "ac_power": 498.05
+      "ac_power": 930.89
     },
     {
       "datetime": "2026-06-28T08:00:00",
-      "ac_power": 2432.88
+      "ac_power": 2670.69
     },
     {
       "datetime": "2026-06-28T09:00:00",
-      "ac_power": 2511.55
+      "ac_power": 2572.63
     },
     {
       "datetime": "2026-06-28T10:00:00",
-      "ac_power": 3266.49
+      "ac_power": 3746.53
     },
     {
       "datetime": "2026-06-28T11:00:00",
-      "ac_power": 3859.71
+      "ac_power": 4022.16
     },
     {
       "datetime": "2026-06-28T12:00:00",
-      "ac_power": 3867.42
+      "ac_power": 3842.17
     },
     {
       "datetime": "2026-06-28T13:00:00",
-      "ac_power": 2831.89
+      "ac_power": 1559.79
     },
     {
       "datetime": "2026-06-28T14:00:00",
-      "ac_power": 3279.49
+      "ac_power": 1348.24
     },
     {
       "datetime": "2026-06-28T15:00:00",
-      "ac_power": 3586.69
+      "ac_power": 2994.27
     },
     {
       "datetime": "2026-06-28T16:00:00",
-      "ac_power": 2409.9
+      "ac_power": 3049.45
     },
     {
       "datetime": "2026-06-28T17:00:00",
-      "ac_power": 645.0
+      "ac_power": 1086.64
     },
     {
       "datetime": "2026-06-28T18:00:00",
-      "ac_power": 428.63
+      "ac_power": 569.02
     },
     {
       "datetime": "2026-06-28T19:00:00",
-      "ac_power": 65.44
+      "ac_power": 65.72
     },
     {
       "datetime": "2026-06-28T20:00:00",
-      "ac_power": 88.24
+      "ac_power": 88.09
     },
     {
       "datetime": "2026-06-28T21:00:00",
-      "ac_power": 81.23
+      "ac_power": 81.34
     },
     {
       "datetime": "2026-06-28T22:00:00",
-      "ac_power": 92.96
+      "ac_power": 93.26
     },
     {
       "datetime": "2026-06-28T23:00:00",
-      "ac_power": 108.03
+      "ac_power": 107.91
     },
     {
       "datetime": "2026-06-29T00:00:00",
@@ -123,55 +123,55 @@
     },
     {
       "datetime": "2026-06-29T06:00:00",
-      "ac_power": 26.59
+      "ac_power": 25.46
     },
     {
       "datetime": "2026-06-29T07:00:00",
-      "ac_power": 822.63
+      "ac_power": 934.91
     },
     {
       "datetime": "2026-06-29T08:00:00",
-      "ac_power": 1524.5
+      "ac_power": 1760.44
     },
     {
       "datetime": "2026-06-29T09:00:00",
-      "ac_power": 3044.26
+      "ac_power": 1667.77
     },
     {
       "datetime": "2026-06-29T10:00:00",
-      "ac_power": 3894.33
+      "ac_power": 2463.24
     },
     {
       "datetime": "2026-06-29T11:00:00",
-      "ac_power": 3570.08
+      "ac_power": 3772.3
     },
     {
       "datetime": "2026-06-29T12:00:00",
-      "ac_power": 3986.49
+      "ac_power": 4182.26
     },
     {
       "datetime": "2026-06-29T13:00:00",
-      "ac_power": 3998.44
+      "ac_power": 3903.88
     },
     {
       "datetime": "2026-06-29T14:00:00",
-      "ac_power": 3756.58
+      "ac_power": 3503.16
     },
     {
       "datetime": "2026-06-29T15:00:00",
-      "ac_power": 3206.68
+      "ac_power": 3747.37
     },
     {
       "datetime": "2026-06-29T16:00:00",
-      "ac_power": 2619.59
+      "ac_power": 2248.86
     },
     {
       "datetime": "2026-06-29T17:00:00",
-      "ac_power": 2058.94
+      "ac_power": 1074.32
     },
     {
       "datetime": "2026-06-29T18:00:00",
-      "ac_power": 453.61
+      "ac_power": 481.21
     },
     {
       "datetime": "2026-06-29T19:00:00",
@@ -187,7 +187,7 @@
     },
     {
       "datetime": "2026-06-29T22:00:00",
-      "ac_power": 0.26
+      "ac_power": 4.14
     },
     {
       "datetime": "2026-06-29T23:00:00",
@@ -219,63 +219,63 @@
     },
     {
       "datetime": "2026-06-30T06:00:00",
-      "ac_power": 24.59
+      "ac_power": 0.0
     },
     {
       "datetime": "2026-06-30T07:00:00",
-      "ac_power": 1003.7
+      "ac_power": 1138.58
     },
     {
       "datetime": "2026-06-30T08:00:00",
-      "ac_power": 1069.45
+      "ac_power": 884.88
     },
     {
       "datetime": "2026-06-30T09:00:00",
-      "ac_power": 981.99
+      "ac_power": 3389.17
     },
     {
       "datetime": "2026-06-30T10:00:00",
-      "ac_power": 1027.06
+      "ac_power": 2713.77
     },
     {
       "datetime": "2026-06-30T11:00:00",
-      "ac_power": 1154.31
+      "ac_power": 4140.76
     },
     {
       "datetime": "2026-06-30T12:00:00",
-      "ac_power": 4122.86
+      "ac_power": 3957.3
     },
     {
       "datetime": "2026-06-30T13:00:00",
-      "ac_power": 4190.71
+      "ac_power": 3881.5
     },
     {
       "datetime": "2026-06-30T14:00:00",
-      "ac_power": 3495.52
+      "ac_power": 3342.76
     },
     {
       "datetime": "2026-06-30T15:00:00",
-      "ac_power": 3418.27
+      "ac_power": 3285.89
     },
     {
       "datetime": "2026-06-30T16:00:00",
-      "ac_power": 2724.37
+      "ac_power": 2266.16
     },
     {
       "datetime": "2026-06-30T17:00:00",
-      "ac_power": 1107.78
+      "ac_power": 621.94
     },
     {
       "datetime": "2026-06-30T18:00:00",
-      "ac_power": 425.5
+      "ac_power": 368.25
     },
     {
       "datetime": "2026-06-30T19:00:00",
-      "ac_power": 0.5
+      "ac_power": 0.0
     },
     {
       "datetime": "2026-06-30T20:00:00",
-      "ac_power": 22.92
+      "ac_power": 27.69
     },
     {
       "datetime": "2026-06-30T21:00:00",
@@ -283,11 +283,11 @@
     },
     {
       "datetime": "2026-06-30T22:00:00",
-      "ac_power": 52.03
+      "ac_power": 59.98
     },
     {
       "datetime": "2026-06-30T23:00:00",
-      "ac_power": 0.0
+      "ac_power": 2.28
     },
     {
       "datetime": "2026-07-01T00:00:00",
@@ -315,67 +315,67 @@
     },
     {
       "datetime": "2026-07-01T06:00:00",
-      "ac_power": 32.61
+      "ac_power": 7.22
     },
     {
       "datetime": "2026-07-01T07:00:00",
-      "ac_power": 1085.37
+      "ac_power": 643.52
     },
     {
       "datetime": "2026-07-01T08:00:00",
-      "ac_power": 629.57
+      "ac_power": 1785.74
     },
     {
       "datetime": "2026-07-01T09:00:00",
-      "ac_power": 1067.41
+      "ac_power": 2578.9
     },
     {
       "datetime": "2026-07-01T10:00:00",
-      "ac_power": 2495.04
+      "ac_power": 1791.69
     },
     {
       "datetime": "2026-07-01T11:00:00",
-      "ac_power": 3146.75
+      "ac_power": 1868.86
     },
     {
       "datetime": "2026-07-01T12:00:00",
-      "ac_power": 2993.47
+      "ac_power": 1544.97
     },
     {
       "datetime": "2026-07-01T13:00:00",
-      "ac_power": 2770.89
+      "ac_power": 2380.24
     },
     {
       "datetime": "2026-07-01T14:00:00",
-      "ac_power": 1885.7
+      "ac_power": 3037.79
     },
     {
       "datetime": "2026-07-01T15:00:00",
-      "ac_power": 1424.98
+      "ac_power": 1996.15
     },
     {
       "datetime": "2026-07-01T16:00:00",
-      "ac_power": 777.58
+      "ac_power": 1542.4
     },
     {
       "datetime": "2026-07-01T17:00:00",
-      "ac_power": 590.97
+      "ac_power": 1109.82
     },
     {
       "datetime": "2026-07-01T18:00:00",
-      "ac_power": 506.15
+      "ac_power": 584.87
     },
     {
       "datetime": "2026-07-01T19:00:00",
-      "ac_power": 0.22
+      "ac_power": 5.38
     },
     {
       "datetime": "2026-07-01T20:00:00",
-      "ac_power": 4.54
+      "ac_power": 8.93
     },
     {
       "datetime": "2026-07-01T21:00:00",
-      "ac_power": 7.14
+      "ac_power": 10.97
     },
     {
       "datetime": "2026-07-01T22:00:00",
@@ -411,75 +411,75 @@
     },
     {
       "datetime": "2026-07-02T06:00:00",
-      "ac_power": 19.39
+      "ac_power": 53.28
     },
     {
       "datetime": "2026-07-02T07:00:00",
-      "ac_power": 785.49
+      "ac_power": 649.84
     },
     {
       "datetime": "2026-07-02T08:00:00",
-      "ac_power": 602.57
+      "ac_power": 879.35
     },
     {
       "datetime": "2026-07-02T09:00:00",
-      "ac_power": 464.38
+      "ac_power": 1059.53
     },
     {
       "datetime": "2026-07-02T10:00:00",
-      "ac_power": 558.47
+      "ac_power": 1215.95
     },
     {
       "datetime": "2026-07-02T11:00:00",
-      "ac_power": 871.17
+      "ac_power": 1205.64
     },
     {
       "datetime": "2026-07-02T12:00:00",
-      "ac_power": 1490.72
+      "ac_power": 845.37
     },
     {
       "datetime": "2026-07-02T13:00:00",
-      "ac_power": 2344.09
+      "ac_power": 609.86
     },
     {
       "datetime": "2026-07-02T14:00:00",
-      "ac_power": 2147.2
+      "ac_power": 248.82
     },
     {
       "datetime": "2026-07-02T15:00:00",
-      "ac_power": 699.12
+      "ac_power": 139.08
     },
     {
       "datetime": "2026-07-02T16:00:00",
-      "ac_power": 423.4
+      "ac_power": 1279.43
     },
     {
       "datetime": "2026-07-02T17:00:00",
-      "ac_power": 380.45
+      "ac_power": 585.7
     },
     {
       "datetime": "2026-07-02T18:00:00",
-      "ac_power": 132.98
+      "ac_power": 225.64
     },
     {
       "datetime": "2026-07-02T19:00:00",
-      "ac_power": 5.49
+      "ac_power": 23.53
     },
     {
       "datetime": "2026-07-02T20:00:00",
-      "ac_power": 8.56
+      "ac_power": 5.85
     },
     {
       "datetime": "2026-07-02T21:00:00",
-      "ac_power": 12.09
+      "ac_power": 10.33
     },
     {
       "datetime": "2026-07-02T22:00:00",
-      "ac_power": 14.54
+      "ac_power": 15.39
     },
     {
       "datetime": "2026-07-02T23:00:00",
-      "ac_power": 15.82
+      "ac_power": 17.57
     },
     {
       "datetime": "2026-07-03T00:00:00",
@@ -507,59 +507,59 @@
     },
     {
       "datetime": "2026-07-03T06:00:00",
-      "ac_power": 158.56
+      "ac_power": 108.39
     },
     {
       "datetime": "2026-07-03T07:00:00",
-      "ac_power": 833.94
+      "ac_power": 765.33
     },
     {
       "datetime": "2026-07-03T08:00:00",
-      "ac_power": 1490.81
+      "ac_power": 1328.55
     },
     {
       "datetime": "2026-07-03T09:00:00",
-      "ac_power": 2859.14
+      "ac_power": 2851.57
     },
     {
       "datetime": "2026-07-03T10:00:00",
-      "ac_power": 3231.54
+      "ac_power": 3140.52
     },
     {
       "datetime": "2026-07-03T11:00:00",
-      "ac_power": 3413.4
+      "ac_power": 3434.77
     },
     {
       "datetime": "2026-07-03T12:00:00",
-      "ac_power": 3858.5
+      "ac_power": 3825.96
     },
     {
       "datetime": "2026-07-03T13:00:00",
-      "ac_power": 3525.61
+      "ac_power": 3777.3
     },
     {
       "datetime": "2026-07-03T14:00:00",
-      "ac_power": 3433.87
+      "ac_power": 3363.77
     },
     {
       "datetime": "2026-07-03T15:00:00",
-      "ac_power": 3266.49
+      "ac_power": 2586.39
     },
     {
       "datetime": "2026-07-03T16:00:00",
-      "ac_power": 2693.89
+      "ac_power": 2197.32
     },
     {
       "datetime": "2026-07-03T17:00:00",
-      "ac_power": 1637.53
+      "ac_power": 1022.03
     },
     {
       "datetime": "2026-07-03T18:00:00",
-      "ac_power": 674.17
+      "ac_power": 679.13
     },
     {
       "datetime": "2026-07-03T19:00:00",
-      "ac_power": 52.65
+      "ac_power": 1.73
     },
     {
       "datetime": "2026-07-03T20:00:00",
@@ -567,35 +567,35 @@
     },
     {
       "datetime": "2026-07-03T21:00:00",
-      "ac_power": 11.64
+      "ac_power": 6.76
     },
     {
       "datetime": "2026-07-03T22:00:00",
-      "ac_power": 30.34
+      "ac_power": 28.83
     },
     {
       "datetime": "2026-07-03T23:00:00",
-      "ac_power": 44.31
+      "ac_power": 45.03
     },
     {
       "datetime": "2026-07-04T00:00:00",
-      "ac_power": 1.7
+      "ac_power": 2.84
     },
     {
       "datetime": "2026-07-04T01:00:00",
-      "ac_power": 5.56
+      "ac_power": 6.84
     },
     {
       "datetime": "2026-07-04T02:00:00",
-      "ac_power": 5.6
+      "ac_power": 6.55
     },
     {
       "datetime": "2026-07-04T03:00:00",
-      "ac_power": 5.65
+      "ac_power": 6.57
     },
     {
       "datetime": "2026-07-04T04:00:00",
-      "ac_power": 0.0
+      "ac_power": 0.66
     },
     {
       "datetime": "2026-07-04T05:00:00",
@@ -603,59 +603,59 @@
     },
     {
       "datetime": "2026-07-04T06:00:00",
-      "ac_power": 106.45
+      "ac_power": 91.06
     },
     {
       "datetime": "2026-07-04T07:00:00",
-      "ac_power": 931.88
+      "ac_power": 844.56
     },
     {
       "datetime": "2026-07-04T08:00:00",
-      "ac_power": 919.69
+      "ac_power": 930.9
     },
     {
       "datetime": "2026-07-04T09:00:00",
-      "ac_power": 2098.73
+      "ac_power": 2187.89
     },
     {
       "datetime": "2026-07-04T10:00:00",
-      "ac_power": 3190.85
+      "ac_power": 3720.29
     },
     {
       "datetime": "2026-07-04T11:00:00",
-      "ac_power": 3534.97
+      "ac_power": 4022.65
     },
     {
       "datetime": "2026-07-04T12:00:00",
-      "ac_power": 3553.1
+      "ac_power": 3979.83
     },
     {
       "datetime": "2026-07-04T13:00:00",
-      "ac_power": 3393.49
+      "ac_power": 4018.78
     },
     {
       "datetime": "2026-07-04T14:00:00",
-      "ac_power": 3207.14
+      "ac_power": 3808.05
     },
     {
       "datetime": "2026-07-04T15:00:00",
-      "ac_power": 3135.2
+      "ac_power": 3264.03
     },
     {
       "datetime": "2026-07-04T16:00:00",
-      "ac_power": 2882.31
+      "ac_power": 2791.92
     },
     {
       "datetime": "2026-07-04T17:00:00",
-      "ac_power": 1533.17
+      "ac_power": 1483.91
     },
     {
       "datetime": "2026-07-04T18:00:00",
-      "ac_power": 583.28
+      "ac_power": 575.69
     },
     {
       "datetime": "2026-07-04T19:00:00",
-      "ac_power": 10.33
+      "ac_power": 0.0
     },
     {
       "datetime": "2026-07-04T20:00:00",
@@ -663,15 +663,15 @@
     },
     {
       "datetime": "2026-07-04T21:00:00",
-      "ac_power": 3.34
+      "ac_power": 0.73
     },
     {
       "datetime": "2026-07-04T22:00:00",
-      "ac_power": 24.49
+      "ac_power": 22.1
     },
     {
       "datetime": "2026-07-04T23:00:00",
-      "ac_power": 39.88
+      "ac_power": 38.39
     }
   ]
 }
